@@ -420,13 +420,19 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK://返回键
-                if( mWebView.canGoBack() && mViewPager.getCurrentItem()==1
+                if(mWebView.canGoBack() && mViewPager.getCurrentItem()==1
                 && !isPlayFragmentShow){
                     mWebView.goBack();
                     return true;
                 }
                 if(LocalMusicFragment.fileNameOrder) {
                     LocalMusicFragment.refreshOrder(null);
+                    ToastUtils.show(LocalMusicFragment.fileNameOrder?"查看抖音ID":"取消查看抖音ID");
+                    return true;
+                }
+                if(!NaviMenuExecutor.favoriteFlag) {
+                    NaviMenuExecutor.changeMenuItem();
+                    ToastUtils.show(!NaviMenuExecutor.favoriteFlag?"查看所有喜欢":"取消查看喜欢");
                     return true;
                 }
                 if(!isPlayFragmentShow)// 右键处理

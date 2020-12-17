@@ -301,7 +301,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
         MusicActivity.position = position-1;
         Music music = AppCache.get().getLocalMusicList().get(position-1);
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        CharSequence[] mItems1 = getResources().getTextArray(R.array.local_music_long_dialog);
+        CharSequence[] mItems1 = getResources().getTextArray(R.array.local_music_frag_long_dialog);
         int fIndex = mItems1.length-1<0?0:mItems1.length-1;
         if(NaviMenuExecutor.favoriteFlag) {
             if (0 == music.getSongId()) {
@@ -320,6 +320,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
             switch (which) {
                 case 0:// 查看抖音ID所有
                     refreshOrder(music);
+                    ToastUtils.show(fileNameOrder?"查看抖音ID":"取消查看抖音ID");
                     break;
                 case 1:// 置顶
                     if(!TextUtils.isEmpty(music.getAlbum())) {
@@ -336,8 +337,9 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
                     }
                     ToastUtils.show("置顶成功");
                     break;
-                case 2:// 上传到根目录
-                    doUploadCache(music);
+                case 2:// 查看所有喜欢/取消
+                    NaviMenuExecutor.changeMenuItem();
+                    ToastUtils.show(!NaviMenuExecutor.favoriteFlag?"查看所有喜欢":"取消查看喜欢");
                     break;
                 case 3:// 缓存转本地MP4
                     doCacheSave(music);

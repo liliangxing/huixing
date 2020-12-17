@@ -10,6 +10,15 @@
         <item>从手机删除</item>
     </string-array>
 
+    <string-array name="local_music_frag_long_dialog">
+        <item>查看抖音ID所有/取消</item>
+        <item>置顶</item>
+        <item>查看所有喜欢/取消</item>
+        <item>缓存转本地MP4</item>
+        <item>发送文件到</item>
+        <item>设为喜欢</item>
+    </string-array>
+
     <string-array name="local_music_long_dialog">
         <item>查看抖音ID所有/取消</item>
         <item>置顶</item>
