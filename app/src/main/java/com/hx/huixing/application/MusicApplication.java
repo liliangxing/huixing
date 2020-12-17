@@ -33,16 +33,17 @@ public class MusicApplication extends DaemonApplication {
         mainActivity = activity;
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onCreate() {
         super.onCreate();
         AppCache.get().init(this);
         ForegroundObserver.init(this);
-        /*if (isMainProcess(getApplicationContext())) {
+        if (isMainProcess(getApplicationContext())) {
             startService(new Intent(this, LocalService.class));
         } else {
             return;
-        }*/
+        }
         ShareManager.initSDK(this);
         context = getApplicationContext();
         startService(new Intent(this, Service1.class));

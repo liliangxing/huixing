@@ -320,7 +320,9 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
             switch (which) {
                 case 0:// 查看抖音ID所有
                     refreshOrder(music);
-                    ToastUtils.show(fileNameOrder?"查看抖音ID":"取消查看抖音ID");
+                    if(!fileNameOrder) {
+                        ToastUtils.show("取消查看抖音ID");
+                    }
                     break;
                 case 1:// 置顶
                     if(!TextUtils.isEmpty(music.getAlbum())) {
@@ -339,7 +341,9 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
                     break;
                 case 2:// 查看所有喜欢/取消
                     NaviMenuExecutor.changeMenuItem();
-                    ToastUtils.show(!NaviMenuExecutor.favoriteFlag?"查看所有喜欢":"取消查看喜欢");
+                    if(NaviMenuExecutor.favoriteFlag) {
+                        ToastUtils.show("取消查看喜欢");
+                    }
                     break;
                 case 3:// 缓存转本地MP4
                     doCacheSave(music);
