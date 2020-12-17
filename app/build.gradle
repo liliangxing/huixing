@@ -147,4 +147,5 @@ dependencies {
     implementation 'com.danikula:videocache:2.7.0'
     implementation project(':ijkplayer')
     implementation project(':thirdplatform')
+    implementation project(':LibMarsdaemon')
 }

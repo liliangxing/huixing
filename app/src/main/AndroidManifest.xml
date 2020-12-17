@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hx.huixing">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 高德天气 -->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!-- Bugly -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <application
+        android:name="com.hx.huixing.application.MusicApplication"
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+        android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="${AMAP_KEY}" />
+
+        <service android:name="com.hx.huixing.service.PlayService" />
+
+        <service android:name=".service.PasteCopyService" android:enabled="true"
+            android:exported="true"/>
+
+        <service android:name=".service.PushService"   android:enabled="true"
+            android:exported="false" android:process=":push"/>
+        <service android:name=".service.PushService$DaemonInnerService"   android:enabled="true"
+            android:exported="false" android:process=":push"/>
+        <receiver android:name=".receiver.AlarmReceive" android:process=":push"/>
+
+        <service
+            android:name=".service.LocalService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".service.RemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":RemoteProcess" />
+
+        <service
+            android:name=".service.ForegroundService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".service.ForegroundService$RemoveNotificationService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name="com.hx.huixing.receiver.DownloadReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.hx.huixing.receiver.RemoteControlReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.hx.huixing.receiver.StatusBarReceiver">
+            <intent-filter>
+                <action android:name="com.hx.huixing.STATUS_BAR_ACTIONS" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.hx.huixing.activity.MusicActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hx.huixing.activity.OnlineMusicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.ArtistInfoActivity"
+            android:label="@string/artist_info"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.SearchMusicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Search" />
+        <activity
+            android:name="com.hx.huixing.activity.LocalMusicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.SettingActivity"
+            android:label="@string/menu_setting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.AboutActivity"
+            android:label="@string/menu_about"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.FullScreenActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize" />
+        <activity
+            android:name="com.hx.huixing.activity.MusicInfoActivity"
+            android:label="@string/music_info"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.SubscribeMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.PlaylistActivity"
+            android:label="@string/activity_playlist"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.hx.huixing.activity.MainActivity"
+            android:label="@string/activity_full_screen"
+            android:screenOrientation="portrait" />
+
+        <service android:name=".service.Service1" android:process=":process1"/>
+        <receiver android:name=".receiver.Receiver1" android:process=":process1"/>
+        <service android:name=".service.Service2" android:process=":process2"/>
+        <receiver android:name=".receiver.Receiver2" android:process=":process2"/>
+    </application>
+
+</manifest>

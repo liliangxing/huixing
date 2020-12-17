@@ -1,1 +1,1 @@
-include ':app','ijkplayer',':thirdplatform'
+include ':app','ijkplayer',':thirdplatform','LibMarsdaemon'
