@@ -31,7 +31,6 @@ public class RemoteService extends Service {
         @Override
         public void onServiceDisconnected(ComponentName name) {
             Log.e(TAG, "onServiceDisconnected: 链接断开，重新启动 LocalService");
-            Toast.makeText(RemoteService.this, "链接断开，重新启动 LocalService", Toast.LENGTH_LONG).show();
             startService(new Intent(RemoteService.this, LocalService.class));
             bindService(new Intent(RemoteService.this, LocalService.class), connection, Context.BIND_IMPORTANT);
         }
