@@ -427,12 +427,10 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                 }
                 if(LocalMusicFragment.fileNameOrder) {
                     LocalMusicFragment.refreshOrder(null);
-                    ToastUtils.show(LocalMusicFragment.fileNameOrder?"查看抖音ID":"取消查看抖音ID");
                     return true;
                 }
                 if(!NaviMenuExecutor.favoriteFlag) {
                     NaviMenuExecutor.changeMenuItem();
-                    ToastUtils.show(!NaviMenuExecutor.favoriteFlag?"查看所有喜欢":"取消查看喜欢");
                     return true;
                 }
                 if(!isPlayFragmentShow)// 右键处理
