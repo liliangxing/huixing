@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_app_bar" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/play_bar_height">
+
+    <com.hx.huixing.widget.AutoLoadListView
+        android:id="@+id/lv_online_music_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null" />
+
+    <include
+        android:id="@+id/ll_loading"
+        layout="@layout/include_loading"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/ll_load_fail"
+        layout="@layout/include_load_fail"
+        android:visibility="gone" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/v_searching"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/screen_tips_top"
+        android:text="正在扫描…"
+        android:textColor="@color/grey"
+        android:textSize="14sp"
+        android:visibility="gone" />
+</FrameLayout>

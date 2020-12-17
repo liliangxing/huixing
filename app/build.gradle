@@ -1,0 +1,150 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+// 获取程序名称
+static def getProductName() {
+    return "BPA"
+}
+
+// 获取当前系统时间
+static def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+8"))
+}
+
+android {
+    compileSdkVersion Integer.parseInt(COMPILE_SDK_VERSION)
+    buildToolsVersion BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.hx.huixing"
+        minSdkVersion Integer.parseInt(MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(VERSION_CODE)
+        versionName VERSION_NAME
+
+        manifestPlaceholders = [AMAP_KEY: getLocalValue("AMAP_KEY")]
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+    }
+
+    signingConfigs {
+        baseSignConfigs {
+            //MD5: 71:E5:40:32:69:0D:EB:C0:BE:28:5F:8F:9B:59:09:24
+            //SHA1: F5:E8:CF:7B:83:FD:66:53:D4:5D:9B:D8:47:A7:F2:1A:61:00:26:F0
+            //storeFile file('C:/Users/win7/.android/bpa.keystore')
+            storeFile file("bpa.keystore")        // 签名文件的路径
+            storePassword "bpa.com"               // 密码
+            keyAlias "bpa"                        // 签名的别名
+            keyPassword "bpa.com"                 // 密码
+
+            //v1和v2的签名使用
+            //1）只勾选v1签名并不会影响什么，但是在7.0上不会使用更安全的验证方式
+            //2）只勾选V2签名7.0以下会直接安装完显示未安装，7.0以上则使用了V2的方式验证
+            //3）同时勾选V1和V2则所有机型都没问题
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            buildConfigField("String", "API_URL", '"www.baidu.com"')
+            buildConfigField("boolean", "IS_DEBUG", "false")
+            buildConfigField("int", "INT_STATUS", "0")
+
+            minifyEnabled false                  // 开启代码混淆
+            shrinkResources false                // 移除无用的resource文件
+            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            signingConfig signingConfigs.baseSignConfigs
+        }
+
+        debug {
+            debuggable true
+            signingConfig signingConfigs.baseSignConfigs
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    useLibrary 'org.apache.http.legacy'
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/libs']//默认为jniLibs
+        }
+    }
+    externalNativeBuild{
+        cmake{
+            path 'CMakeLists.txt'
+        }
+    }
+
+    // 修改生成的apk名字
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+
+                // def fileName = getProductName() + "_V${defaultConfig.versionName}_${releaseTime()}" + ".apk"
+                outputFileName = getProductName() + "_V" + defaultConfig.versionName + "_" + releaseTime() + ".apk"
+
+                if (variant.getBuildType().isMinifyEnabled()) {
+                    variant.assemble.doLast {
+                        copy {
+                            from variant.mappingFile
+                            into "${projectDir}"
+                            rename { String fileName ->
+                                getProductName() + "_V" + defaultConfig.versionName + "_" + releaseTime() + "_mapping" + ".txt"
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
+
+    // lint时候终止错误上报,防止编译的时候莫名的失败
+    lintOptions {
+        abortOnError false
+        disable 'InconsistentArrays', 'DefaultLocale', 'OldTargetApi', 'GradleOverrides', 'MissingTranslation', 'UnusedResources', 'GoogleAppIndexingWarning'
+    }
+}
+
+def getLocalValue(String key) {
+    return getLocalValue(key, false)
+}
+
+def getLocalValue(String key, boolean quot) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def value = properties.containsKey(key) ? properties.get(key) : ""
+    if (quot) {
+        value = "\"" + value + "\""
+    }
+    return value
+}
+
+greendao {
+    schemaVersion 1
+    targetGenDir 'src/main/java'
+    daoPackage "${android.defaultConfig.applicationId}.storage.db.greendao"
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$SUPPORT_VERSION"
+    implementation "com.android.support:design:$SUPPORT_VERSION"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.3.1'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+    implementation 'me.wcy:lrcview:2.0.1'
+    implementation 'com.hwangjr.rxbus:rxbus:2.0.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation files('libs/jsoup.jar')
+    implementation files('libs/xUtils-2.6.14.jar')
+    implementation files('libs/fastjson-1.0.4.jar')
+    implementation 'com.danikula:videocache:2.7.0'
+    implementation project(':ijkplayer')
+    implementation project(':thirdplatform')
+}
