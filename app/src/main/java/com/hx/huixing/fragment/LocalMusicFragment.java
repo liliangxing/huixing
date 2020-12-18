@@ -131,6 +131,8 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
     public static void refresh(){
         resetOffset();
         cond = MusicDao.Properties.SongId.eq(1);
+        position = lvLocalMusic.getFirstVisiblePosition();
+        offset = (lvLocalMusic.getChildAt(0) == null) ? 0 : lvLocalMusic.getChildAt(0).getTop();
         resetAdapter();
     }
 
@@ -162,7 +164,6 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
             resetAdapter();
         }else {
             refreshAll();
-            lvLocalMusic.setSelectionFromTop(position, offset);
         }
         fileNameOrder = !fileNameOrder;
     }
@@ -170,6 +171,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
     public static void refreshAll(){
         resetOffset();
         resetAdapter();
+        lvLocalMusic.setSelectionFromTop(position, offset);
     }
     private static void resetAdapter(){
         adapter.setMusicList(musicList);
