@@ -206,6 +206,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
                 adapter.notifyDataSetChanged();
                 if(null!=LocalMusicActivity.instance) {
                     LocalMusicActivity.instance.adapter.notifyDataSetChanged();
+                    LocalMusicActivity.addNewFlag = true;
                 }
                 MusicActivity.fromClicked = false;
                 if(music.getAlbumId() == 1){
