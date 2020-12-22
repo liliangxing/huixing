@@ -102,7 +102,8 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
     private int mOffset = 0;
     private static int uploadNum = 1;
     private static  WhereCondition cond = null;
-    private static Property[] orderBy =new Property[] {MusicDao.Properties.Album , MusicDao.Properties.Id};
+    public final static Property[] ORDER_BY_ALBUM =new Property[] {MusicDao.Properties.Album , MusicDao.Properties.Id};
+    private static Property[] orderBy = ORDER_BY_ALBUM;
 
     private static int position;
     private static int offset;
@@ -129,23 +130,20 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
     public static void resetOffset(){
         instance.mOffset = 0;
         cond = null;
-        orderBy = new Property[] {MusicDao.Properties.Id};
+        orderBy = ORDER_BY_ALBUM;
         instance.musicList.clear();
     }
 
     public static void refreshOrder(Music music){
         if(!fileNameOrder) {
-            position = instance.lvLocalMusic.getFirstVisiblePosition();
-            offset = (instance.lvLocalMusic.getChildAt(0) == null) ? 0 : instance.lvLocalMusic.getChildAt(0).getTop();
             resetOffset();
             if(!TextUtils.isEmpty(music.getAlbum())) {
                 cond = LocalMusicFragment.getAlbumCondition(music);
             }
-            orderBy = new Property[] {MusicDao.Properties.Album , MusicDao.Properties.Id};
+            orderBy = ORDER_BY_ALBUM;
             resetAdapter();
         }else {
             refreshAll();
-            instance.lvLocalMusic.setSelectionFromTop(position, offset);
         }
         fileNameOrder = !fileNameOrder;
     }
@@ -179,6 +177,7 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
     @Override
     public void onLoad() {
         getMusic(mOffset);
+        instance.lvLocalMusic.setSelectionFromTop(position, offset);
     }
     private void getMusic(final int offset) {
         QueryBuilder<Music> queryBuilder = DBManager.get().getMusicDao().queryBuilder();
@@ -283,10 +282,8 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
                     }else {
                         moveTop(music);
                     }
-                    adapter.notifyDataSetChanged();
-                    if(fileNameOrder) {
-                        refreshOrder(music);
-                    }
+                    //本页视图不刷新，刷新主页视图
+                    LocalMusicFragment.refresh();
                     break;
                 case 2:// 上传到根目录
                     doUploadCache(music);
@@ -639,7 +636,13 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
     protected void onDestroy() {
         AppCache.get().getLocalMusicList().clear();
         AppCache.get().getLocalMusicList().addAll(firstList);
+        //对于在该页中置顶的操作，需刷新才看到
         LocalMusicFragment.adapter.notifyDataSetChanged();
+        if(!fileNameOrder) {
+            //记住位置
+            position = instance.lvLocalMusic.getFirstVisiblePosition();
+            offset = (instance.lvLocalMusic.getChildAt(0) == null) ? 0 : instance.lvLocalMusic.getChildAt(0).getTop();
+        }
         super.onDestroy();
     }
 

@@ -21,6 +21,8 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.hx.huixing.adapter.OnMoreClickListener;
 import com.hx.huixing.adapter.SearchMusicAdapter;
@@ -122,13 +124,26 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
                 }*/
                 keywords = keyword;
                 MusicDao jbxxDao = DBManager.get().getMusicDao();
-                List<Music> queryList = jbxxDao.queryBuilder().where(
-                        jbxxDao.queryBuilder().or(
-                        MusicDao.Properties.Album.like("%"+ keyword + "%"),
-                        MusicDao.Properties.Title.like("%"+ keyword + "%"),
-                        MusicDao.Properties.FileName.like("%"+ keyword + "%")
-                        )
-                ).orderDesc(MusicDao.Properties.Id).limit(MUSIC_LIST_SIZE).build().list();
+                Matcher m =Pattern.compile("^([a-z|A-Z])([a-z|A-Z])").matcher(keyword);
+                List<Music> queryList;
+                if(m.find()&&m.group(2).equalsIgnoreCase(m.group(1))){
+                    String group = m.group(1);
+                     queryList = jbxxDao.queryBuilder().where(
+                            jbxxDao.queryBuilder().or(
+                                    MusicDao.Properties.Album.like("抖音ID："+ group + "%"),
+                                    MusicDao.Properties.Album.like("抖音号："+ group + "%"),
+                                    MusicDao.Properties.Album.like(""+ group + "%")
+                            )
+                    ).orderDesc(LocalMusicActivity.ORDER_BY_ALBUM).build().list();
+                }else {
+                    queryList = jbxxDao.queryBuilder().where(
+                            jbxxDao.queryBuilder().or(
+                                    MusicDao.Properties.Album.like("%" + keyword + "%"),
+                                    MusicDao.Properties.Title.like("%" + keyword + "%"),
+                                    MusicDao.Properties.FileName.like("%" + keyword + "%")
+                            )
+                    ).orderDesc(MusicDao.Properties.Id).limit(MUSIC_LIST_SIZE).build().list();
+                }
 
                 jbxxDao.queryBuilder().where(jbxxDao.queryBuilder()
                         .and(MusicDao.Properties.AlbumId.eq(1),
