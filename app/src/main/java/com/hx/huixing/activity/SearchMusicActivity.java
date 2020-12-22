@@ -20,6 +20,7 @@ import org.greenrobot.greendao.query.WhereCondition;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -133,6 +134,22 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
                                     MusicDao.Properties.Album.like("抖音ID："+ group + "%"),
                                     MusicDao.Properties.Album.like("抖音号："+ group + "%"),
                                     MusicDao.Properties.Album.like(""+ group + "%")
+                            )
+                    ).orderDesc(LocalMusicActivity.ORDER_BY_ALBUM).build().list();
+                }else if(keyword.equals("00")) {
+                    List<WhereCondition> list = new ArrayList<>();
+                    for(int i=0;i<10;i++){
+                        list.addAll(Arrays.asList(
+                            MusicDao.Properties.Album.like("抖音ID：" + i + "%"),
+                                    MusicDao.Properties.Album.like("抖音号：" + i + "%"),
+                                    MusicDao.Properties.Album.like("" + i + "%")
+                        ));
+                    }
+                    queryList = jbxxDao.queryBuilder().where(
+                            jbxxDao.queryBuilder().or(
+                                    MusicDao.Properties.Album.like("抖音ID：" + 0 + "%"),
+                                    MusicDao.Properties.Album.like("抖音号：" + 0 + "%"),
+                                   list.toArray(new WhereCondition[list.size()])
                             )
                     ).orderDesc(LocalMusicActivity.ORDER_BY_ALBUM).build().list();
                 }else {

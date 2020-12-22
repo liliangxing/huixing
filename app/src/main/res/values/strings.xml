@@ -40,7 +40,7 @@
     <string name="artist_info_intro">简介：%s</string>
     <string name="artist_info_empty">暂无歌手信息</string>
     <string name="share_music">我用%1$s分享了歌曲《%2$s》%3$s</string>
-    <string name="search_tips">如aa，以a开头的抖音号</string>
+    <string name="search_tips">aa，a开头,00以数字</string>
     <string name="search_empty">未找到相关结果</string>
     <string name="menu_setting">功能设置</string>
     <string name="menu_share">推荐给朋友</string>
