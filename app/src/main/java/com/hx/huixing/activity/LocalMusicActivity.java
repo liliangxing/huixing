@@ -31,6 +31,8 @@ import com.danikula.videocache.HttpProxyCacheServer;
 import com.example.ijkplayer.player.VideoCacheManager;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
+import com.hx.huixing.constants.Keys;
+import com.hx.huixing.utils.Utils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -94,7 +96,7 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
     public List<Music> musicList = new ArrayList<>();
     public static boolean fileNameOrder;
 
-    public static final int MUSIC_LIST_SIZE = 100;
+    public static final int MUSIC_LIST_SIZE = 10000;
     @Bind(R.id.ll_loading)
     private LinearLayout llLoading;
     @Bind(R.id.ll_load_fail)
@@ -107,7 +109,6 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
 
     private static int position;
     private static int offset;
-    private List<Music> firstList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +118,6 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
 
     @Override
     protected void onServiceBound() {
-        firstList=AppCache.get().getLocalMusicList();
         init();
     }
 
@@ -177,6 +177,14 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
     @Override
     public void onLoad() {
         getMusic(mOffset);
+        if(position==0){
+            String positionCache = Utils.readData(Keys.PREFERENCES_FILE,"positionCache");
+            String offsetCache = Utils.readData(Keys.PREFERENCES_FILE,"offsetCache");
+            if(!TextUtils.isEmpty(positionCache)){
+                position = Integer.parseInt(positionCache);
+                offset = Integer.parseInt(offsetCache);
+            }
+        }
         instance.lvLocalMusic.setSelectionFromTop(position, offset);
     }
     private void getMusic(final int offset) {
@@ -634,14 +642,16 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
 
     @Override
     protected void onDestroy() {
-        AppCache.get().getLocalMusicList().clear();
-        AppCache.get().getLocalMusicList().addAll(firstList);
         //对于在该页中置顶的操作，需刷新才看到
-        LocalMusicFragment.adapter.notifyDataSetChanged();
+        LocalMusicFragment.refreshAll();
         if(!fileNameOrder) {
             //记住位置
             position = instance.lvLocalMusic.getFirstVisiblePosition();
             offset = (instance.lvLocalMusic.getChildAt(0) == null) ? 0 : instance.lvLocalMusic.getChildAt(0).getTop();
+            Utils.writeData(Keys.PREFERENCES_FILE,"positionCache"
+                    ,position+"");
+            Utils.writeData(Keys.PREFERENCES_FILE,"offsetCache"
+                    ,offset+"");
         }
         super.onDestroy();
     }

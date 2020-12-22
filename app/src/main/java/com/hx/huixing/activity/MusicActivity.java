@@ -87,7 +87,6 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
     public static boolean fromClicked;
     public static boolean forceDownload ;
     public static boolean moreUrl ;
-    public static final String PREFERENCES_FILE = "share_data1";
     public static int position;
 
     @Override
@@ -97,7 +96,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
         instance = this;
         //设置全局上下文
         Utils.setContext(this);
-        String autoDown = Utils.readData(PREFERENCES_FILE,"autoDownload");
+        String autoDown = Utils.readData(Keys.PREFERENCES_FILE,"autoDownload");
         if(TextUtils.isEmpty(autoDown)){
             autoDownload = true;
         }else {
@@ -276,7 +275,7 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                 }else {
                     iv_settings.setBackgroundColor(Color.LTGRAY);
                 }
-                Utils.writeData(PREFERENCES_FILE,"autoDownload"
+                Utils.writeData(Keys.PREFERENCES_FILE,"autoDownload"
                         ,Boolean.toString(autoDownload));
                 ToastUtils.show("自动下载改为："+(autoDownload?"开":"关"));
                 break;

@@ -36,6 +36,7 @@ import com.danikula.videocache.HttpProxyCacheServer;
 import com.example.ijkplayer.player.VideoCacheManager;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
+import com.hx.huixing.activity.LocalMusicActivity;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -203,6 +204,9 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
                 Music music = JSONObject.parseObject(data,Music.class);
                 adapter.addMusic(music);
                 adapter.notifyDataSetChanged();
+                if(null!=LocalMusicActivity.instance) {
+                    LocalMusicActivity.instance.adapter.notifyDataSetChanged();
+                }
                 MusicActivity.fromClicked = false;
                 if(music.getAlbumId() == 1){
                     WebviewFragment.currentMusic =  music;

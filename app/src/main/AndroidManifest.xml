@@ -109,6 +109,8 @@
             android:theme="@style/AppTheme.Search" />
         <activity
             android:name="com.hx.huixing.activity.LocalMusicActivity"
+            android:launchMode="singleTop"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.hx.huixing.activity.SettingActivity"
