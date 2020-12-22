@@ -103,12 +103,14 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
     private LinearLayout llLoadFail;
     private int mOffset = 0;
     private static int uploadNum = 1;
+    public static boolean addNewFlag;
     private static  WhereCondition cond = null;
     public final static Property[] ORDER_BY_ALBUM =new Property[] {MusicDao.Properties.Album , MusicDao.Properties.Id};
     private static Property[] orderBy = ORDER_BY_ALBUM;
 
     private static int position;
     private static int offset;
+    private List<Music> firstList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +120,7 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
 
     @Override
     protected void onServiceBound() {
+        firstList=AppCache.get().getLocalMusicList();
         init();
     }
 
@@ -642,8 +645,15 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
 
     @Override
     protected void onDestroy() {
-        //对于在该页中置顶的操作，需刷新才看到
-        LocalMusicFragment.refreshAll();
+        if(addNewFlag) {
+            LocalMusicFragment.refreshAll();
+        }else {
+            AppCache.get().getLocalMusicList().clear();
+            AppCache.get().getLocalMusicList().addAll(firstList);
+            //对于在该页中置顶的操作，需刷新才看到
+            LocalMusicFragment.adapter.notifyDataSetChanged();
+        }
+        addNewFlag = false;
         if(!fileNameOrder) {
             //记住位置
             position = instance.lvLocalMusic.getFirstVisiblePosition();
