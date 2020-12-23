@@ -501,7 +501,11 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
             switch (which) {
                 case 0:// 抖音打开
                     if (!TextUtils.isEmpty(music.getFileName())) {
-                        SubscribeMessageActivity.createChooser(music.getFileName(), getContext());
+                        if(!music.getFileName().contains("v.douyin.com")){
+                            PasteCopyService.clipboardManager.setPrimaryClip(ClipData.newPlainText("Label", music.getFileName()));
+                        }else {
+                            SubscribeMessageActivity.createChooser(music.getFileName(), getContext());
+                        }
                     } else {
                         ToastUtils.show("无抖音链接：" + JSONObject.toJSONString(music));
                     }
