@@ -450,12 +450,7 @@ public class LocalMusicActivity extends BaseActivity implements AdapterView.OnIt
         dialog.setItems(mItems1, (dialog1, which) -> {
             switch (which) {
                 case 0:// 抖音打开
-                    if (TextUtils.isEmpty(music.getFileName())) {
-                        ToastUtils.show("无抖音链接：" + JSONObject.toJSONString(music));
-                        music.setFileName(music.getPath());
-                        DBManager.get().getMusicDao().save(music);
-                    }
-                    SubscribeMessageActivity.createChooser(music.getFileName(), this);
+                    ViewUtils.openWith(music,this);
                     break;
                 case 1:// 新标签页打开
                     MusicActivity.fromClicked = true;

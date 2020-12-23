@@ -239,8 +239,7 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
         dialog.setItems(itemsId, (dialog1, which) -> {
             switch (which) {
                 case 0:// 抖音打开
-                    String fileName  = TextUtils.isEmpty(music.getFileName())?music.getPath():music.getFileName();
-                    SubscribeMessageActivity.createChooser(fileName,this);
+                    ViewUtils.openWith(music,this);
                     break;
                 case 1:// 置顶
                     AppCache.get().getLocalMusicList().remove(music);

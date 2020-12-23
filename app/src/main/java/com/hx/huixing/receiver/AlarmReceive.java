@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.hx.huixing.utils.SystemUtils;
+import com.hx.huixing.utils.ViewUtils;
 
 public class AlarmReceive extends BroadcastReceiver {
     @Override
@@ -12,11 +13,7 @@ public class AlarmReceive extends BroadcastReceiver {
         //判断app进程是否存活
         if(SystemUtils.isAppALive(context, "com.hx.huixing")){
         }else {
-            Intent launchIntent = context.getPackageManager().
-                    getLaunchIntentForPackage("com.hx.huixing");
-            launchIntent.setFlags(
-                    Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            context.startActivity(launchIntent);
+            ViewUtils.openWithPackageName("com.hx.huixing",context);
         }
     }
 }

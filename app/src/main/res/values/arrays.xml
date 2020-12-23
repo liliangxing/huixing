@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="local_music_dialog">
-        <item>抖音打开</item>
+        <item>抖音/快手打开</item>
         <item>新标签页打开</item>
         <item>发送</item>
         <item>@string/music_info</item>

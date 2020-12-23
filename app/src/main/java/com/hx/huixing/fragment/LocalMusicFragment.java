@@ -37,6 +37,7 @@ import com.example.ijkplayer.player.VideoCacheManager;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.annotation.Tag;
 import com.hx.huixing.activity.LocalMusicActivity;
+import com.hx.huixing.utils.ViewUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -500,15 +501,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
         dialog.setItems(mItems1, (dialog1, which) -> {
             switch (which) {
                 case 0:// 抖音打开
-                    if (!TextUtils.isEmpty(music.getFileName())) {
-                        if(!music.getFileName().contains("v.douyin.com")){
-                            PasteCopyService.clipboardManager.setPrimaryClip(ClipData.newPlainText("Label", music.getFileName()));
-                        }else {
-                            SubscribeMessageActivity.createChooser(music.getFileName(), getContext());
-                        }
-                    } else {
-                        ToastUtils.show("无抖音链接：" + JSONObject.toJSONString(music));
-                    }
+                    ViewUtils.openWith(music,getContext());
                     break;
                 case 1:// 新标签页打开
                     MusicActivity.fromClicked = true;
