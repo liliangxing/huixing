@@ -44,6 +44,9 @@ public class ViewUtils {
                     packageName = "com.kuaishou.nebula";
                 }else if(music.getFileName().contains("weishi.qq.com")){
                     packageName = "com.tencent.weishi";
+                }else {
+                    ToastUtils.show("无法识别链接：" + JSONObject.toJSONString(music.getFileName()));
+                    return;
                 }
                 PasteCopyService.clipboardManager.setPrimaryClip(ClipData.newPlainText("Label", music.getFileName()));
                 openWithPackageName(packageName,context);

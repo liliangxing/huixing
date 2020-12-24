@@ -157,7 +157,7 @@ public class SubscribeMessageActivity extends BaseActivity {
         intent.putExtra("FiiNote", true);
         intent.setData(Uri.parse(url));
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_app)));
-        /*Intent intent = new Intent("android.intent.action.VIEW",Uri.parse(url));
+        /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(intent);*/
         /*android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.intent.action.VIEW dat=kwai://post?musicId=4864784757&musicType=9 }*/
     }
