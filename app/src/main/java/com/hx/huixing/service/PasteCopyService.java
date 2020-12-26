@@ -166,8 +166,8 @@ public class PasteCopyService extends Service {
         return siteName;
     }
     public static boolean checkUrl(String url){
-        if(!(url.contains("v.douyin.com")||url.contains("www.iesdouyin.com/share/video")
-                ||url.contains("h5.weishi.qq.com/weishi/") || url.contains("v.kuaishouapp.com")
+        if(!(url.contains("douyin.com")
+                ||url.contains("weishi.qq.com") || url.contains("v.kuaishouapp.com")
                 || url.contains("yxixy.com/fw/photo/"))){
             return false;
         }

@@ -127,10 +127,8 @@ public class SubscribeMessageActivity extends BaseActivity {
         if(!PasteCopyService.checkUrl(title)){
             url += "&title="+URLEncoder.encode(title);
         }
-        if(url.contains("aweme.snssdk.com")||url.contains("v.weishi.qq.com")){
-            if(null!= WebviewFragment.currentMusic.getCoverPath()){
-                url += "&cover_path="+URLEncoder.encode(WebviewFragment.currentMusic.getCoverPath());
-            }
+        if(null!= WebviewFragment.currentMusic.getCoverPath()){
+            url += "&cover_path="+URLEncoder.encode(WebviewFragment.currentMusic.getCoverPath());
         }
         cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         // 创建普通字符型ClipData

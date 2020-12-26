@@ -208,9 +208,7 @@ public class WebviewFragment extends BaseFragment {
                 message.setData(bundle);
                 handler1.sendMessage(message);
             }
-            if(html2.contains("v.weishi.qq.com")
-                ||html2.contains("q.weishi.qq.com")
-                ||html2.contains("h5.weishi.qq.com")){
+            if(html2.contains("weishi.qq.com")){
                 Elements elements1 =Jsoup.parse(html2).select(".desc");
                 final Elements elements2 =Jsoup.parse(html2).select("video[src],video");
                 //Elements elements5 =Jsoup.parse(html2).select(".figure-img");
