@@ -166,12 +166,12 @@ public class PasteCopyService extends Service {
         return siteName;
     }
     public static boolean checkUrl(String url){
-        if(!(url.contains("douyin.com")
+        if((url.contains("douyin.com")
                 ||url.contains("weishi.qq.com") || url.contains("v.kuaishouapp.com")
-                || url.contains("yxixy.com/fw/photo/"))){
-            return false;
+                || url.contains("yxixy.com/fw/photo/"))&& !url.contains("time24.cn")){
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void dealWithUrl(String url){

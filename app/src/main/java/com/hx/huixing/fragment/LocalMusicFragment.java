@@ -593,7 +593,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
     }
 
     private static String getShareUrl(Music music){
-        String title = music.getTitle().replaceAll("[@|#]([\\S]{1,10})","").trim();
+        String title = music.getTitle()==null?"":music.getTitle().replaceAll("[@|#]([\\S]{1,10})","").trim();
         String url = "http://www.time24.cn/test/index_douyin.php?video="+ URLEncoder.encode(music.getArtist())
                 +"&title="+URLEncoder.encode(title);
         if(null!=music.getCoverPath()){
