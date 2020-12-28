@@ -181,7 +181,7 @@ public class PasteCopyService extends Service {
             return;
         }
         if(url.contains("isee.weishi.qq.com")){
-            Matcher m =Pattern.compile("&id=([\\S-][^&]+)").matcher(url);
+            Matcher m =Pattern.compile("[&|?]id=([\\S-][^&]+)").matcher(url);
             Matcher m2 =Pattern.compile("spid=([\\S-][^&]+)").matcher(url);
             String feedId = null;
             String spid = null;
