@@ -176,15 +176,29 @@ public class PasteCopyService extends Service {
 
     public void dealWithUrl(String url){
         //if(isWeiShi){
+        if(null != NaviMenuExecutor.mapLinks.get(url)){
+            sendMsgVO(NaviMenuExecutor.mapLinks.get(url));
+            return;
+        }
+        if(url.contains("isee.weishi.qq.com")){
+            Matcher m =Pattern.compile("&id=([\\S-][^&]+)").matcher(url);
+            Matcher m2 =Pattern.compile("spid=([\\S-][^&]+)").matcher(url);
+            String feedId = null;
+            String spid = null;
+            if(m.find()){
+                feedId = m.group(1);
+            }
+            if(m2.find()){
+                spid = m2.group(1);
+            }
+            url = "https://h5.weishi.qq.com/weishi/feed/"+feedId+
+            "/wsfeed?wxplay=1&id="+ feedId+"&spid="+spid+"&qua=v1_and_weishi_8.6.0_588_312025000";
+        }
         Music videoVO = new Music();
         videoVO.setPath(url);
         videoVO.setAlbumId(1);
         //videoVO.setTitle(mPreviousText);
         videoVO.setFileName(url);
-        if(null != NaviMenuExecutor.mapLinks.get(url)){
-            sendMsgVO(NaviMenuExecutor.mapLinks.get(url));
-            return;
-        }
         sendMsgVO(videoVO);
         //}
         //clipUrlCrawler(url);
