@@ -180,6 +180,18 @@ public class PasteCopyService extends Service {
             sendMsgVO(NaviMenuExecutor.mapLinks.get(url));
             return;
         }
+        url = dealWithIsee(url);
+        Music videoVO = new Music();
+        videoVO.setPath(url);
+        videoVO.setAlbumId(1);
+        //videoVO.setTitle(mPreviousText);
+        videoVO.setFileName(url);
+        sendMsgVO(videoVO);
+        //}
+        //clipUrlCrawler(url);
+    }
+
+    private static String dealWithIsee(String url){
         if(url.contains("isee.weishi.qq.com")){
             Matcher m =Pattern.compile("[&|?]id=([\\S-][^&]+)").matcher(url);
             Matcher m2 =Pattern.compile("spid=([\\S-][^&]+)").matcher(url);
@@ -192,16 +204,9 @@ public class PasteCopyService extends Service {
                 spid = m2.group(1);
             }
             url = "https://h5.weishi.qq.com/weishi/feed/"+feedId+
-            "/wsfeed?wxplay=1&id="+ feedId+"&spid="+spid+"&qua=v1_and_weishi_8.6.0_588_312025000";
+                    "/wsfeed?wxplay=1&id="+ feedId+"&spid="+spid+"&qua=v1_and_weishi_8.6.0_588_312025000";
         }
-        Music videoVO = new Music();
-        videoVO.setPath(url);
-        videoVO.setAlbumId(1);
-        //videoVO.setTitle(mPreviousText);
-        videoVO.setFileName(url);
-        sendMsgVO(videoVO);
-        //}
-        //clipUrlCrawler(url);
+        return url;
     }
 
     private Notification buildNotification(Context context) {
