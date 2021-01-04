@@ -55,6 +55,7 @@ public class MyWebViewClient extends WebViewClient {
         }
         if(url.contains("weishi.qq.com")
         ||url.contains("douyin.com")
+        ||url.contains("huoshan.com")
         ||url.contains("yxixy.com/fw/photo/")){
             view.loadUrl("javascript:setTimeout(function () {window.java_obj.getSource('<head>'+" +
                     "document.getElementsByTagName('html')[0].innerHTML+'</head>');},2000);");

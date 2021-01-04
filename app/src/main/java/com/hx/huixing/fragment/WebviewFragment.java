@@ -246,12 +246,13 @@ public class WebviewFragment extends BaseFragment {
                 doBundle(m,elements2);
                 return;
             }
-            if(html2.contains("aweme.snssdk.com")){
+            if(html2.contains("aweme.snssdk.com") || html2.contains("byteimg.com")){
                 Elements elements2 =Jsoup.parse(html2).select("video[src]");
                 Elements list2 = Jsoup.parse(html2).getElementsByTag("input");
                 Elements elements3 =Jsoup.parse(html2).select("img");
                 for(Element element:elements3){
-                    if(element.attr("class").contains("poster")){
+                    if(element.attr("class").contains("poster")
+                        || element.parent().attr("class").contains("poster")){
                         elements3 = new Elements(element);
                         break;
                     }
@@ -308,7 +309,15 @@ public class WebviewFragment extends BaseFragment {
                     String url = elements2.get(0).attr("src");
                     Matcher m =Pattern.compile("video_id=([\\S-][^&]+)").matcher(url);
                     if(m.find()){
-                        url = url.replaceAll("playwm\\/\\?video_id=([\\S-][^&]+)","play/?video_id=$1&media_type=4");
+                        url = url.replaceAll("playwm\\/\\?video_id=([\\S-][^&]+)", "play/?video_id=$1&media_type=4");
+                        //火山版抖音
+                        if(url.contains("huoshan.com")){
+                            /**
+                             * https://aweme.snssdk.com/aweme/v1/play/?video_id=v0300fa70000bvotiif7dmhgj5pb3q90&media_type=4&ratio=720p&line=0
+                             * https://api.huoshan.com/hotsoon/item/video/_reflow/?video_id=v0d00fdb0000bvm626esro5ov2js77qg&line=0&app_id=0&vquality=hight&long_video=0&sf=5&ts=1609727563&item_id=6912006288117419264
+                             */
+                            url = "https://aweme.snssdk.com/aweme/v1/play/?video_id="+m.group(1)+"&media_type=4&ratio=720p&line=0";
+                        }
                         currentMusic.setArtist(url);
                         bundle.putString("data", url);
                         message.setData(bundle);
