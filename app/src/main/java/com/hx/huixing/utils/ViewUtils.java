@@ -42,6 +42,8 @@ public class ViewUtils {
                 String packageName = "com.ss.android.ugc.aweme";
                 if(music.getFileName().contains("v.kuaishouapp.com")){
                     packageName = "com.kuaishou.nebula";
+                }else if(music.getFileName().contains("v.kuaishou.com")){
+                    packageName = "com.smile.gifmaker";
                 }else if(music.getFileName().contains("weishi.qq.com")){
                     packageName = "com.tencent.weishi";
                 }else {
@@ -59,10 +61,14 @@ public class ViewUtils {
     }
 
     public static void openWithPackageName(String packageName,Context context){
-        Intent launchIntent = context.getPackageManager().
-                getLaunchIntentForPackage(packageName);
-        launchIntent.setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        context.startActivity(launchIntent);
+        try {
+            Intent launchIntent = context.getPackageManager().
+                    getLaunchIntentForPackage(packageName);
+            launchIntent.setFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            context.startActivity(launchIntent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
