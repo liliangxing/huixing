@@ -94,7 +94,8 @@ public class PasteCopyService extends Service {
                 if(null == item || null == item.getText()){
                     return;
                 }
-                if(mPreviousText.equals(item.getText().toString())){ return;}
+                if(mPreviousText.equals(item.getText().toString()) ||
+                        mPreviousText.endsWith("#openWith")){ return;}
                 else{
                     mPreviousText = item.getText().toString();
                     String html  = mPreviousText;
@@ -120,7 +121,6 @@ public class PasteCopyService extends Service {
                         }
                         boolean addFlag = true;
                         for(Music music:musicList){
-                            if(mPreviousText.endsWith("#openWith")) {break;}
                             boolean startSpc = music.getTitle()==null||music.getTitle().startsWith("@")||
                                     music.getTitle().startsWith("#");
                             if(
