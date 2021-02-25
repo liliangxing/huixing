@@ -37,23 +37,24 @@ public class ViewUtils {
         }
     }
     public static void openWith(Music music, Context context){
-        if (!TextUtils.isEmpty(music.getFileName())) {
-            if(!music.getFileName().contains("douyin.com")){
+        String html = music.getFileName();
+        if (!TextUtils.isEmpty(html)) {
+            if(!html.contains("douyin.com")){
                 String packageName = "com.ss.android.ugc.aweme";
-                if(music.getFileName().contains("v.kuaishouapp.com")){
-                    packageName = "com.kuaishou.nebula";
-                }else if(music.getFileName().contains("v.kuaishou.com")){
+                if(html.contains("v.kuaishou.com")){
                     packageName = "com.smile.gifmaker";
-                }else if(music.getFileName().contains("weishi.qq.com")){
+                }else if((html.contains("kuai") && html.contains(".com"))){
+                    packageName = "com.kuaishou.nebula";
+                }else if(html.contains("weishi.qq.com")){
                     packageName = "com.tencent.weishi";
                 }else {
-                    ToastUtils.show("无法识别链接：" + JSONObject.toJSONString(music.getFileName()));
+                    ToastUtils.show("无法识别链接：" + JSONObject.toJSONString(html));
                     return;
                 }
-                PasteCopyService.clipboardManager.setPrimaryClip(ClipData.newPlainText("Label", music.getFileName()));
+                PasteCopyService.clipboardManager.setPrimaryClip(ClipData.newPlainText("Label", html+"#openWith"));
                 openWithPackageName(packageName,context);
             }else {
-                SubscribeMessageActivity.createChooser(music.getFileName(), context);
+                SubscribeMessageActivity.createChooser(html, context);
             }
         } else {
             ToastUtils.show("无抖音链接：" + JSONObject.toJSONString(music));

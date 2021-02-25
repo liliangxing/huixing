@@ -120,6 +120,7 @@ public class PasteCopyService extends Service {
                         }
                         boolean addFlag = true;
                         for(Music music:musicList){
+                            if(mPreviousText.endsWith("#openWith")) {break;}
                             boolean startSpc = music.getTitle()==null||music.getTitle().startsWith("@")||
                                     music.getTitle().startsWith("#");
                             if(
@@ -160,7 +161,8 @@ public class PasteCopyService extends Service {
         String siteName = "抖音";
         if(html.contains("weishi.qq.com")){
             siteName =  "微视";
-        }else if(html.contains("v.kuaishouapp.com") || html.contains("v.kuaishou.com")){
+        }else if((html.contains("kuai") && html.contains(".com"))
+        ){
             siteName =  "快手";
         }
         return siteName;
@@ -169,8 +171,7 @@ public class PasteCopyService extends Service {
         if((url.contains("douyin.com")
                 || url.contains("huoshan.com")
                 || url.contains("weishi.qq.com")
-                || url.contains("v.kuaishou.com")
-                || url.contains("v.kuaishouapp.com")
+                || (url.contains("kuai") && url.contains(".com"))
                 || url.contains("yxixy.com/fw/photo/"))&& !url.contains("time24.cn")){
             return true;
         }
