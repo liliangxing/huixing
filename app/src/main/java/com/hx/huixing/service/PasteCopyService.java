@@ -94,11 +94,11 @@ public class PasteCopyService extends Service {
                 if(null == item || null == item.getText()){
                     return;
                 }
-                if(mPreviousText.equals(item.getText().toString()) ||
-                        mPreviousText.endsWith("#openWith")){ return;}
+                if(mPreviousText.equals(item.getText().toString())){ return;}
                 else{
                     mPreviousText = item.getText().toString();
                     String html  = mPreviousText;
+                    if(html.endsWith("#openWith")){ return;}
                     String mode = "(http[s]?:\\/\\/([\\w-]+\\.)+[\\w-]+([\\w-./?%&*=]*))";
                     String htmlText = html.replaceAll(mode,"");
                     Pattern p = Pattern.compile(mode);
