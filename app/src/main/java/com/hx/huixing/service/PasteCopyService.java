@@ -161,8 +161,7 @@ public class PasteCopyService extends Service {
         String siteName = "抖音";
         if(html.contains("weishi.qq.com")){
             siteName =  "微视";
-        }else if((html.contains("kuai") && html.contains(".com"))
-        ){
+        }else if(html.contains("kuai") && html.contains(".com")){
             siteName =  "快手";
         }
         return siteName;
