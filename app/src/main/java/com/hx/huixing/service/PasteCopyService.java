@@ -161,7 +161,7 @@ public class PasteCopyService extends Service {
         String siteName = "抖音";
         if(html.contains("weishi.qq.com")){
             siteName =  "微视";
-        }else if(html.contains("kuai") && html.contains(".com")){
+        }else if(html.contains("v.kuaishouapp.com") || html.contains("v.kuaishou.com")){
             siteName =  "快手";
         }
         return siteName;
@@ -170,7 +170,8 @@ public class PasteCopyService extends Service {
         if((url.contains("douyin.com")
                 || url.contains("huoshan.com")
                 || url.contains("weishi.qq.com")
-                || (url.contains("kuai") && url.contains(".com"))
+                || url.contains("v.kuaishou.com")
+                || url.contains("v.kuaishouapp.com")
                 || url.contains("yxixy.com/fw/photo/"))&& !url.contains("time24.cn")){
             return true;
         }
