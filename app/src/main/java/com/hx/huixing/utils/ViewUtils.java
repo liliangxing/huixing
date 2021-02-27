@@ -42,7 +42,8 @@ public class ViewUtils {
             if(!html.contains("douyin.com")){
                 String packageName = "com.ss.android.ugc.aweme";
                 if(html.contains("v.kuaishou.com")){
-                    packageName = "com.smile.gifmaker";
+                    packageName = "com.kuaishou.nebula";
+                    //packageName = "com.smile.gifmaker";
                 }else if(html.contains("v.kuaishouapp.com")){
                     packageName = "com.kuaishou.nebula";
                 }else if(html.contains("weishi.qq.com")){

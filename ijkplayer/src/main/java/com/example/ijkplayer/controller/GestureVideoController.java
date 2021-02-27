@@ -25,7 +25,7 @@ import com.example.ijkplayer.widget.CenterView;
 public abstract class GestureVideoController extends BaseVideoController{
 
     protected GestureDetector mGestureDetector;
-    protected boolean gestureEnabled = true;
+    protected boolean gestureEnabled;
     protected CenterView mCenterView;
     protected AudioManager mAudioManager;
 
@@ -100,7 +100,7 @@ public abstract class GestureVideoController extends BaseVideoController{
             float deltaX = e1.getX() - e2.getX();
             float deltaY = e1.getY() - e2.getY();
             if (firstTouch) {
-                mChangePosition = Math.abs(distanceX) >= Math.abs(distanceY)/10;
+                mChangePosition = Math.abs(distanceX) >= Math.abs(distanceY);
                 if (!mChangePosition) {
                     if (e2.getX() > WindowUtil.getScreenHeight(getContext(), false) / 2) {
                         mChangeBrightness = true;
@@ -129,7 +129,7 @@ public abstract class GestureVideoController extends BaseVideoController{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        boolean detectedUp = true;
+        boolean detectedUp = event.getAction() == MotionEvent.ACTION_UP;
         if (!mGestureDetector.onTouchEvent(event) && detectedUp) {
             if (mCenterView.getVisibility() == VISIBLE) {
                 mCenterView.setVisibility(GONE);
