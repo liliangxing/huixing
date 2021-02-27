@@ -100,7 +100,7 @@ public abstract class GestureVideoController extends BaseVideoController{
             float deltaX = e1.getX() - e2.getX();
             float deltaY = e1.getY() - e2.getY();
             if (firstTouch) {
-                mChangePosition = Math.abs(distanceX) >= Math.abs(distanceY);
+                mChangePosition = Math.abs(distanceX) >= Math.abs(distanceY)/10;
                 if (!mChangePosition) {
                     if (e2.getX() > WindowUtil.getScreenHeight(getContext(), false) / 2) {
                         mChangeBrightness = true;
@@ -129,7 +129,7 @@ public abstract class GestureVideoController extends BaseVideoController{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        boolean detectedUp = event.getAction() == MotionEvent.ACTION_UP;
+        boolean detectedUp = true;
         if (!mGestureDetector.onTouchEvent(event) && detectedUp) {
             if (mCenterView.getVisibility() == VISIBLE) {
                 mCenterView.setVisibility(GONE);
