@@ -25,7 +25,7 @@ import com.example.ijkplayer.widget.CenterView;
 public abstract class GestureVideoController extends BaseVideoController{
 
     protected GestureDetector mGestureDetector;
-    protected boolean gestureEnabled;
+    protected boolean gestureEnabled = true;
     protected CenterView mCenterView;
     protected AudioManager mAudioManager;
 
