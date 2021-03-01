@@ -327,24 +327,21 @@ public class WebviewFragment extends BaseFragment {
                 }
               return;
             }else if(html2.contains("抖音")){
-                        if(PasteCopyService.hashSetIterator.hasNext()){
-                            String url = PasteCopyService.hashSetIterator.next();
-                            MusicActivity.instance.playService2.dealWithUrl(url);
-                        }
-                        return;
+                dohHasNext();
+                return;
             }
             if(html2.contains("<video")){
                 Elements elements1 =Jsoup.parse(html2).select(".caption-container");
                 Elements elements2 =Jsoup.parse(html2).select("video[src]");
                 Elements elements3 =Jsoup.parse(html2).select(".video-cover,.poster-content");
                 Elements elementsAuthor =Jsoup.parse(html2).select(".auth-name");
-                Elements elements5 =Jsoup.parse(html2).select(".card-container");
+                Elements authInfoElement =Jsoup.parse(html2).select(".auth-info-container");
                 if(!elements1.isEmpty()){
                     currentMusic.setTitle(elements1.get(0).text());
                 }
-                if(!elements5.isEmpty() && !elementsAuthor.isEmpty()){
-                    String url = elements5.get(0).attr("data-scheme-url");
-                    Matcher m =Pattern.compile("userId=([\\S-][^&]+)").matcher(url);
+                if(!authInfoElement.isEmpty() && !elementsAuthor.isEmpty()){
+                    String url = authInfoElement.get(0).attr("data-scheme-url");
+                    Matcher m =Pattern.compile("kwai://profile/([\\S-][^\"]+)").matcher(url);
                     if(m.find()){
                         url = m.group(1);
                     }
@@ -363,10 +360,7 @@ public class WebviewFragment extends BaseFragment {
                 doBundle(m,elements2);
                 return;
             }else if(html2.contains("kuai")){
-                if(PasteCopyService.hashSetIterator.hasNext()){
-                    String url = PasteCopyService.hashSetIterator.next();
-                    MusicActivity.instance.playService2.dealWithUrl(url);
-                }
+                dohHasNext();
                 return;
             }
             if(!html.contains("aweme_list")){
@@ -390,6 +384,13 @@ public class WebviewFragment extends BaseFragment {
                     break;
                 }
             }
+        }
+    }
+
+    private void dohHasNext(){
+        if(PasteCopyService.hashSetIterator.hasNext()){
+            String url = PasteCopyService.hashSetIterator.next();
+            MusicActivity.instance.playService2.dealWithUrl(url);
         }
     }
 
