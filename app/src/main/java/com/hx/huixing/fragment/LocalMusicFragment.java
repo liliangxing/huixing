@@ -107,7 +107,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
     public static LocalMusicFragment downloadFirst;
     public static LocalMusicFragment instance;
     public static List<Music> musicList = new ArrayList<>();
-    public static boolean fileNameOrder;
+    public static boolean viewByGroupFlag;
 
     public static final int MUSIC_LIST_SIZE = 10000;
     @Bind(R.id.ll_loading)
@@ -156,18 +156,15 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
        return MusicDao.Properties.Album.like("%"+ keyword + "%");
     }
     public static void refreshOrder(Music music){
-        if(!fileNameOrder) {
             position = lvLocalMusic.getFirstVisiblePosition();
             offset = (lvLocalMusic.getChildAt(0) == null) ? 0 : lvLocalMusic.getChildAt(0).getTop();
             resetOffset();
+            orderBy = new Property[] {MusicDao.Properties.SongId,MusicDao.Properties.Id};
             if(!TextUtils.isEmpty(music.getAlbum())) {
                 cond = getAlbumCondition(music);
             }
             resetAdapter();
-        }else {
-            refreshAll();
-        }
-        fileNameOrder = !fileNameOrder;
+            viewByGroupFlag = true;
     }
 
     public static void refreshAll(){
@@ -328,7 +325,7 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
             switch (which) {
                 case 0:// 查看抖音ID所有
                     refreshOrder(music);
-                    ToastUtils.show(fileNameOrder?"查看抖音ID":"取消查看抖音ID");
+                    ToastUtils.show("查看抖音ID");
                     break;
                 case 1:// 置顶
                     if(!TextUtils.isEmpty(music.getAlbum())) {
@@ -340,8 +337,9 @@ public class LocalMusicFragment extends BaseFragment implements AdapterView.OnIt
                         moveTop(music);
                     }
                     adapter.notifyDataSetChanged();
-                    if(fileNameOrder) {
-                        refreshOrder(music);
+                    if(viewByGroupFlag) {
+                        refreshAll();
+                        viewByGroupFlag = false;
                     }
                     ToastUtils.show("置顶成功");
                     break;

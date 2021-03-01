@@ -348,6 +348,10 @@ public class WebviewFragment extends BaseFragment {
                     if(m.find()){
                         url = m.group(1);
                     }
+                    m =Pattern.compile("\"kwaiId\":\"([\\S-][^\"]+)").matcher(html2);
+                    if(m.find()){
+                        url = m.group(1);
+                    }
                     String author = elementsAuthor.get(0).text();
                     currentMusic.setAlbum(StringUtil.join(Arrays.asList(url.trim(),author)," "));
                 }

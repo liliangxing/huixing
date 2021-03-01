@@ -424,8 +424,9 @@ public class MusicActivity extends BaseActivity implements View.OnClickListener,
                     mWebView.goBack();
                     return true;
                 }
-                if(LocalMusicFragment.fileNameOrder) {
-                    LocalMusicFragment.refreshOrder(null);
+                if(LocalMusicFragment.viewByGroupFlag) {
+                    LocalMusicFragment.refreshAll();
+                    LocalMusicFragment.viewByGroupFlag = false;
                     return true;
                 }
                 if(!NaviMenuExecutor.favoriteFlag) {
