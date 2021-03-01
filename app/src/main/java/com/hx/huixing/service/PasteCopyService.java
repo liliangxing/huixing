@@ -71,7 +71,7 @@ public class PasteCopyService extends Service {
     public static Handler handler1;
     private long clipNowTime;
     private long clipPreTime;
-    private final static long runMillis = 8 * 1000;
+    private final static long runMillis = 4 * 1000;
     public class PlayBinder extends Binder {
         public PasteCopyService getService() {
             return PasteCopyService.this;
@@ -367,7 +367,7 @@ public class PasteCopyService extends Service {
         Bundle bundle = new Bundle();
         bundle.putString(key, JSON.toJSONString(videoVO));
         message.setData(bundle);
-        if(clipNowTime - clipPreTime > runMillis) {
+        if(clipNowTime - clipPreTime > runMillis|| PasteCopyService.hashSetIterator.hasNext()) {
             handler1.sendMessage(message);
             clipPreTime = clipNowTime;
         }else {
@@ -376,7 +376,7 @@ public class PasteCopyService extends Service {
             if(exceedTime > 0){
                 //时间点还没到，计算下一个延时
                 delayMillis = (exceedTime> runMillis?
-                        runMillis:exceedTime*2)+runMillis;
+                        runMillis:(exceedTime+runMillis/2))+runMillis;
             }else {
                 delayMillis = runMillis;
             }

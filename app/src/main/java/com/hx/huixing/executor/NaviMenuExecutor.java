@@ -143,7 +143,8 @@ public class NaviMenuExecutor {
         for(Music music:musicList) {
             if(TextUtils.isEmpty(music.getFileName())
             || music.getFileName().contains("weishi")){ continue;}
-            if (TextUtils.isEmpty(music.getAlbum())) {
+            if (//TextUtils.isEmpty(music.getAlbum())
+                    music.getFileName().contains("kuaishou") ) {
                 hashSet.add(music.getFileName());
                 mapLinks.put(music.getFileName(),music);
             }

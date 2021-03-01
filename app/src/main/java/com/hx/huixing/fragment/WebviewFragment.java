@@ -362,6 +362,12 @@ public class WebviewFragment extends BaseFragment {
                 }
                 doBundle(m,elements2);
                 return;
+            }else if(html2.contains("kuai")){
+                if(PasteCopyService.hashSetIterator.hasNext()){
+                    String url = PasteCopyService.hashSetIterator.next();
+                    MusicActivity.instance.playService2.dealWithUrl(url);
+                }
+                return;
             }
             if(!html.contains("aweme_list")){
                 return;
