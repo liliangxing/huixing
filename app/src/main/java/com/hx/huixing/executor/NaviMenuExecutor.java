@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.hx.huixing.activity.AboutActivity;
 import com.hx.huixing.activity.LocalMusicActivity;
@@ -138,12 +140,27 @@ public class NaviMenuExecutor {
         }).start();
     }
 
+    /**
+     * 判断是不是数字
+     * @param str
+     * @return
+     */
+    public boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("[0-9]+");
+        Matcher isNum = pattern.matcher(str);
+        if(!isNum.matches() ){
+            return false;
+        }
+        return true;
+    }
+
     private void doAlbum(List<Music> musicList){
         HashSet<String> hashSet = new HashSet<>();
         for(Music music:musicList) {
             if(TextUtils.isEmpty(music.getFileName())
             || music.getFileName().contains("weishi")){ continue;}
-            if (music.getFileName().contains("kuaishou") &&!TextUtils.isEmpty(music.getAlbum()) &&music.getAlbum().startsWith("3x") ) {
+            if (music.getFileName().contains("kuaishou") &&!TextUtils.isEmpty(music.getAlbum()) &&
+                    (music.getAlbum().startsWith("3x")||!isNumeric(music.getAlbum().split(" ")[0])) ) {
                 hashSet.add(music.getFileName());
                 mapLinks.put(music.getFileName(),music);
             }
